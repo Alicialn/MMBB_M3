@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="../utils/langFetch.js"></script>
+    <script src="../utils/preventRefresh.js"> </script>
+    <script src="../utils/identifyOS.js"> </script>
+
+    <script src="https://unpkg.com/jspsych@7.1.2"></script>
+    <script src="../../jspsych/dist/plugin-html-slider-response.js"></script>
+    <script src="../../jspsych/dist/plugin-audio-button-response.js"> </script>
+    <script src="../../jspsych/dist/plugin-html-button-response.js"> </script>
+    <script src="../../jspsych/dist/plugin-instructions.js"> </script>
+    <script src="../../jspsych/dist/plugin-survey-likert.js"> </script>
+    <script src="../../jspsych/dist/plugin-canvas-button-response.js"> </script>
+    <script src="../../jspsych/dist/plugin-html-keyboard-response.js"> </script>
+    <script src="../../jspsych/dist/plugin-survey-multi-choice.js"> </script>
+    <script src="../../jspsych/dist/plugin-initialize-microphone.js"> </script>
+    <script src="../../jspsych/dist/plugin-audio-keyboard-response.js"> </script>
+    <script src="../../jspsych/dist/plugin-html-audio-response.js"> </script>
+    <script src="../../jspsych/dist/plugin-preload.js"> </script>
+    <script src="../../songs/movementTapAudio/songKeysNames.js"> </script>
+    <script src="../../jspsych/dist/custom/utils.js"> </script>
+    <script src="../../jspsych/dist/plugin-survey-html-form.js"> </script>
+    <script src="../../songs/movementTapAudio/songKeysNames.js"></script>
+
+    <script src="../../jspsych/dist/custom/beatProductionFunctions.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/jspsych@7.1.2/css/jspsych.css">
+
+    <script src="../utils/translations.js"></script>
+    <script src="./generalIntro.js"></script>
+
+    <!--Fetching timelines for each task-->
+    <script src="./tapping.js"> </script>
+
+    <link rel="stylesheet" href="../styles/generalCSS.css">
+
+  </head>
+
+  <body></body>
+
+  <script>
+
+    //Time begin experiment
+    var timeBegin = Date.now();
+
+    var jsPsych = initJsPsych({
+      on_finish: function() {
+
+        var userID = urlParams.get('user')
+        if(userID == null){
+          var userID = jsPsych.randomization.randomID(10)
+        }
+
+        var timeEnd = Date.now();
+        
+        jsPsych.data.addProperties({userID: userID, timeEnd: timeEnd, timeBegin: timeBegin});
+        var finalData = jsPsych.data.get()
+
+        jsPsych.data.get().localSave('csv', userID + '.csv');
+      
+      }
+    });
+    
+    var tappingTimeline = [frontPage, preloadSongs2, instruction0, trialTapping0, messageEndTask, howDifficult, instruction1, trialTapping1, messageEndTask, howDifficult];
+    jsPsych.run(tappingTimeline)
+
+ </script>
+</html>
+
